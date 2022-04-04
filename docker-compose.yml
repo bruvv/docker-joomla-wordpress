@@ -35,6 +35,15 @@ services:
   #     - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
   #     - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
 
+  adminer:
+    image: adminer:latest
+    container_name: "${COMPOSE_PROJECT_NAME}-adminer"
+    restart: ${RESTART}
+    ports:
+      - "8080" # auto port control
+    depends_on:
+      - database
+
   database:
     image: mariadb:10.8
     container_name: "${COMPOSE_PROJECT_NAME}-database"
