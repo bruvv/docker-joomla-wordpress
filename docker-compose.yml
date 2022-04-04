@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  joomla:
+    image: joomla:3-php7.4
+    container_name: "${COMPOSE_PROJECT_NAME}-joomla"
+    restart: ${RESTART}
+    depends_on:
+      - database
+    volumes:
+      - "./www:/var/www/html"
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - JOOMLA_DB_HOST=${COMPOSE_PROJECT_NAME}-database
+      - JOOMLA_DB_PASSWORD=${MYSQL_PASSWORD}
+      - JOOMLA_DB_USER=${MYSQL_USER}
+      - JOOMLA_DB_NAME=${MYSQL_DATABASE}
+
+  # wordpress:
+  #   container_name: "${COMPOSE_PROJECT_NAME}-wordpress"
+  #   restart: ${RESTART}
+  #   image: wordpress:latest
+  #   depends_on:
+  #     - database
+  #   volumes:
+  #     - ./www/:/var/www/html
+  #   environment:
+  #     - TZ
+  #     - PUID
+  #     - PGID
+  #     - WORDPRESS_DB_HOST=${COMPOSE_PROJECT_NAME}-database
+  #     - WORDPRESS_DB_USER=${MYSQL_USER}
+  #     - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+  #     - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+
+  database:
+    image: mariadb:10.8
+    container_name: "${COMPOSE_PROJECT_NAME}-database"
+    restart: ${RESTART}
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - "./database:/var/lib/mysql"
+
+  redis:
+    container_name: "${COMPOSE_PROJECT_NAME}-redis"
+    image: redis:alpine
+    restart: ${RESTART}
+    environment:
+      - TZ
+      - PUID
+      - PGID
