@@ -58,6 +58,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - "./database:/var/lib/mysql"
+      - "./dump.sql:/docker-entrypoint-initdb.d/dump.sql"
 
   redis:
     container_name: "${COMPOSE_PROJECT_NAME}-redis"
