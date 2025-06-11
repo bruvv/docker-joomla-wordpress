@@ -45,7 +45,7 @@ services:
       - database
 
   database:
-    image: mariadb:11.7
+    image: mariadb:11.8
     container_name: "${COMPOSE_PROJECT_NAME}-database"
     restart: ${RESTART}
     environment:
